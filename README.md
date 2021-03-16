@@ -146,4 +146,52 @@ Docker Compose: la herramienta todo en uno
 Comandos:
 $ docker-compose up -d (crea todo lo declarado en el archivo docker-compose.yml)
 
+Comandos: Subcomandos de Docker Compose
 
+$ docker network ls (listo las redes)
+$ docker network inspect docker_default (veo la definición de la red)
+$ docker-compose logs (veo todos los logs)
+$ docker-compose logs app (solo veo el log de “app”)
+$ docker-compose logs -f app (hago un follow del log de app)
+$ docker-compose exec app bash (entro al shell del contenedor app)
+$ docker-compose ps (veo los contenedores generados por docker compose)
+$ docker-compose down (borro todo lo generado por docker compose)
+
+
+Comandos: Docker Compose como herramienta de desarrollo
+
+$ docker-compose build (crea las imágenes)
+$ docker-compose up -d (crea los servicios/contenedores) 
+fig===docker-compose   alias  up -d
+$ docker-compose logs app (veo los logs de “app”)
+$ docker-compose logs -f app (hago un follow de los logs de “app”)
+
+version: "3.8"
+
+services:
+  app:
+    build: .
+    environment:
+      MONGO_URL: "mongodb://db:27017/test"
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    volumes:
+      -  .:/usr/src/
+      - /usr/src/node_modules
+    command: npx nodemon index.js 
+
+  db:
+    image: mongo
+
+
+
+Comandos: Compose en equipo: override
+
+$ touch docker-compose.override.yml (creo el archivo override)
+$ docker-compose up -d (crea los servicios/contenedores)
+$ docker-compose exec app bash (entro al bash del contenedor app)
+$ docker-compose ps (veo los contenedores del compose)
+$ docker-compose up -d --scale app=2 (escalo dos instancias de app, previamente tengo que definir un rango de puertos en el archivo compose)
+$ docker-compose down (borro todo lo creado con compose)
