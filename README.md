@@ -1,3 +1,8 @@
+Guido Vilariño
+https://platzi.com/clases/docker/
+
+Fundamentos de docker
+
 # docker
 study docker
 
@@ -195,3 +200,47 @@ $ docker-compose exec app bash (entro al bash del contenedor app)
 $ docker-compose ps (veo los contenedores del compose)
 $ docker-compose up -d --scale app=2 (escalo dos instancias de app, previamente tengo que definir un rango de puertos en el archivo compose)
 $ docker-compose down (borro todo lo creado con compose)
+
+Comandos: Administrando tu ambiente de Docker
+
+$ docker ps -a (veo todos los contenedores de mi máquina)
+$ docker container prune (borra todos los contenedores inactivos)
+$ docker rm -f $(docker ps -aq) (borra todos los contenedores que estén corriendo o apagados)
+$ docker network ls (lista todas las redes)
+$ docker volume ls (lista todos los volumes)
+$ docker image ls (lista todas las imágenes)
+$ docker system prune (borra todo lo que no se esté usando)
+$ docker run -d --name app --memory 1g platziapp (limito el uso de memoria)
+$ docker stats (veo cuantos recursos consume docker en mi sistema)
+$ docker inspect app (puedo ver si el proceso muere por falta de recursos)
+
+Comandos:Deteniendo contenedores correctamente: SHELL vs. EXEC
+
+$ docker build -t loop . (construyo la imagen)
+$ docker run -d --name looper loop (corro el contenedor)
+$ docker stop looper (le envía la señal SIGTERM al contenedor)
+$ docker ps -l (muestra el ps del último proceso)
+$ docker kill looper (le envía la señal SIGKILL al contenedor)
+$ docker exec looper ps -ef (veo los procesos del contenedor)
+
+Comandos:
+$ docker buils -t ping . (construyo la imagen)
+$ docker run --name pinger ping <hostname> (ahora le puedo pasar un parámetro, previamente tengo que agregar el ENTRYPOINT en el Dockerfile)
+
+Comandos: El contexto de build
+
+$ docker build -t prueba .(creo la imagen)
+$ docker run -d --rm --name app prueba (corro el contenedor)
+en el archivo .dockerignore puedo poner todo lo que no quiero que copie del contexto de build
+$ docker exec -it app bash (entro al contenedor y verifico que no se haya copiado lo que está en el .dockerignore)
+
+
+Comandos: Multi-stage build
+
+$ docker build -t prodapp -f Dockerfile . (ahora le especifíco el Dockerfile)
+$ docker run -d --name prod prodapp
+
+Comandos: Docker-in-Docker
+
+$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock docker:19.03.12
+$ docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -v $(wich docker):/bin/docker wagoodman/dive:latest prodapp
