@@ -224,7 +224,7 @@ $ docker kill looper (le envía la señal SIGKILL al contenedor)
 $ docker exec looper ps -ef (veo los procesos del contenedor)
 
 Comandos:
-$ docker buils -t ping . (construyo la imagen)
+$ docker build -t ping . (construyo la imagen)
 $ docker run --name pinger ping <hostname> (ahora le puedo pasar un parámetro, previamente tengo que agregar el ENTRYPOINT en el Dockerfile)
 
 Comandos: El contexto de build
@@ -237,7 +237,7 @@ $ docker exec -it app bash (entro al contenedor y verifico que no se haya copiad
 
 Comandos: Multi-stage build
 
-$ docker build -t prodapp -f Dockerfile . (ahora le especifíco el Dockerfile)
+$ docker build -t prodapp -f Dockerfile  (ahora le especifíco el Dockerfile)
 $ docker run -d --name prod prodapp
 
 Comandos: Docker-in-Docker

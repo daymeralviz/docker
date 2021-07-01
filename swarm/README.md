@@ -55,6 +55,27 @@ Un servicio puede agrupar a uno o varios contenedores.
 docker service create --name nombre imagedocker command, para crear un nuevo servicio, con un nombre, imagen y comando específico en docker swarm.
 docker service ls, para listar una serie de servicios.
 Para poder crear un servicio docker swarm usa los mismos conceptos que se usa docker.
+// Crear Servicio con el nombre pinger, realizando un ping a google.com
+docker service create --name pinger alpine ping www.google.com
+// lista los servicios
+docker service ls
+
+
+6. Entendiendo el ciclo de vida de un servicio
+
+Desde el Cliente , ‘docker service create’ le envía al Nodo Manager el servicio: se crea, se verifican cuántas tareas tendrá, se le otorga una IP virtual y asigna tareas a nodos; esta información es recibida por el Nodo Worker, quien prepara la tarea y luego ejecuta los contenedores.
+
+docker service ps pinger
+docker service inspect pinger
+docker service inspect --pretty pinger
+docker service logs pinger
+docker service logs -f pinger // para que siga sacando el resultado
+docker service rm pinger
+
+7. Un playground de docker swarm gratuito: play-with-docker
+
+¡Play with docker es una herramienta de otro mundo! Te permitirá colaborar entre distintos usuarios en una mismas sesión de docker, y lo mejor, ¡puedes incluir tu propia terminal!
+
 
 
 
